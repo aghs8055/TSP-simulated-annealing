@@ -28,7 +28,7 @@ class TSP:
         self.init_temp = init_temp
         self.alpha = alpha
         self.same_solution = same_solution
-        self.solution = [point_name for point_name in points]
+        self.solution = list(self.points.keys())
         self.cost = self.calculate_distance(self.solution)
 
     def get_new_solution(self):
@@ -43,17 +43,14 @@ class TSP:
     def inverse_path(self):
         start_index = randint(0, self.point_count - 2)
         end_index = randint(start_index + 1, self.point_count - 1)
-        new_solution = [point_name for point_name in self.solution]
-        return (
-            new_solution[:start_index]
-            + new_solution[start_index : end_index + 1][::-1]
-            + new_solution[end_index + 1 :]
-        )
+        new_solution = self.solution.copy()
+        new_solution[start_index:end_index + 1] = reversed(new_solution[start_index:end_index + 1])
+        return new_solution
 
     def swap_point(self) -> List[Union[int, str]]:
         first = randint(0, self.point_count - 2)
         second = randint(first + 1, self.point_count - 1)
-        new_solution = [point_name for point_name in self.solution]
+        new_solution = self.solution.copy()
         new_solution[first], new_solution[second] = (
             new_solution[second],
             new_solution[first],
@@ -63,7 +60,7 @@ class TSP:
     def change_point_position(self) -> List[Union[int, str]]:
         first = randint(0, self.point_count - 1)
         second = randint(0, self.point_count - 1)
-        new_solution = [point_name for point_name in self.solution]
+        new_solution = self.solution.copy()
         value = new_solution.pop(first)
         new_solution.insert(second, value)
         return new_solution
@@ -71,7 +68,7 @@ class TSP:
     def change_path_position(self) -> List[Union[int, str]]:
         start_index = randint(0, self.point_count - 2)
         end_index = randint(start_index + 1, self.point_count - 1)
-        new_solution = [point_name for point_name in self.solution]
+        new_solution = self.solution.copy()
         value = new_solution[start_index : end_index + 1]
         new_solution = new_solution[:start_index] + new_solution[end_index + 1 :]
         break_index = randint(0, len(new_solution))

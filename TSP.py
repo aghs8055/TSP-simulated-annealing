@@ -28,7 +28,9 @@ class TSP:
         self.alpha = alpha
         self.target_same_solution = same_solution
         self.solution = list(self.points.keys())
-        self.distances = {j: {i: self.points[i] - self.points[j] for i in points} for j in points}
+        self.distances = {
+            j: {i: self.points[i] - self.points[j] for i in points} for j in points
+        }
         self.cost = self.calculate_distance(self.solution)
 
     def get_new_solution(self):
@@ -44,7 +46,9 @@ class TSP:
         start_index = randint(0, self.point_count - 2)
         end_index = randint(start_index + 1, self.point_count - 1)
         new_solution = self.solution.copy()
-        new_solution[start_index:end_index + 1] = reversed(new_solution[start_index:end_index + 1])
+        new_solution[start_index : end_index + 1] = reversed(
+            new_solution[start_index : end_index + 1]
+        )
         return new_solution
 
     def swap_point(self) -> List[Union[int, str]]:

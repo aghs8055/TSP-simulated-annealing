@@ -26,7 +26,7 @@ class TSP:
         self.point_count = len(self.points)
         self.init_temp = init_temp
         self.alpha = alpha
-        self.same_solution = same_solution
+        self.target_same_solution = same_solution
         self.solution = list(self.points.keys())
         self.distances = {j: {i: self.points[i] - self.points[j] for i in points} for j in points}
         self.cost = self.calculate_distance(self.solution)
@@ -85,22 +85,26 @@ class TSP:
     def solve(self):
         cur_temp = self.init_temp
         same_solution = 0
+        old_solution = self.solution
+        old_cost = self.cost
 
-        while same_solution < self.same_solution:
+        while same_solution < self.target_same_solution:
             new_solution = self.get_new_solution()
             new_cost = self.calculate_distance(new_solution)
             if new_cost < self.cost:
-                self.cost = new_cost
                 self.solution = new_solution
+            if new_cost < old_cost:
+                old_cost = new_cost
+                old_solution = new_solution
                 same_solution = 0
-            elif new_cost == self.cost:
+            elif new_cost == old_cost:
                 same_solution += 1
             else:
                 if uniform(0, 1) < math.exp(
-                    float(self.cost - new_cost) / float(cur_temp)
+                    float(old_cost - new_cost) / float(cur_temp)
                 ):
-                    self.cost = new_cost
-                    self.solution = new_solution
+                    old_cost = new_cost
+                    old_solution = new_solution
                     same_solution = 0
                 else:
                     same_solution += 1

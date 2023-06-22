@@ -3,7 +3,6 @@ from random import randint, choice, uniform
 import math
 
 from matplotlib import pyplot as plt
-import pandas
 
 
 class Point:
@@ -29,6 +28,7 @@ class TSP:
         self.alpha = alpha
         self.same_solution = same_solution
         self.solution = list(self.points.keys())
+        self.distances = {j: {i: self.points[i] - self.points[j] for i in points} for j in points}
         self.cost = self.calculate_distance(self.solution)
 
     def get_new_solution(self):
@@ -78,8 +78,8 @@ class TSP:
     def calculate_distance(self, solution: List[Union[int, str]]) -> int:
         distance = 0
         for i in range(self.point_count - 1):
-            distance += self.points[solution[i]] - self.points[solution[i + 1]]
-        distance += self.points[solution[-1]] - self.points[solution[0]]
+            distance += self.distances[solution[i]][solution[i + 1]]
+        distance += self.distances[solution[-1]][solution[0]]
         return distance
 
     def solve(self):

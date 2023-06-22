@@ -97,6 +97,7 @@ class TSP:
             new_cost = self.calculate_distance(new_solution)
             if new_cost < self.cost:
                 self.solution = new_solution
+                self.cost = new_cost
             if new_cost < old_cost:
                 old_cost = new_cost
                 old_solution = new_solution

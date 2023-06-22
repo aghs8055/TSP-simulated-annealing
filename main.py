@@ -1,3 +1,7 @@
+import pandas
+from TSP import Point, TSP
+
+
 if __name__ == "__main__":
     data = pandas.read_csv("data.csv", header=None, names=["name", "x", "y"])
     data = data.set_index("name").apply(tuple, axis=1).to_dict()
@@ -5,7 +9,7 @@ if __name__ == "__main__":
         name: Point(coordinates[1], coordinates[0])
         for name, coordinates in data.items()
     }
-    tsp = TSP(points, same_solution=15000)
+    tsp = TSP(points, same_solution=1500)
     tsp.solve()
     print(tsp.cost)
     tsp.display_solution()

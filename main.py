@@ -11,5 +11,5 @@ if __name__ == "__main__":
     }
     tsp = TSP(points, same_solution=1500)
     tsp.solve()
-    print(tsp.cost)
+    print(f'Cost of final solution: {tsp.cost}')
     tsp.display_solution()
